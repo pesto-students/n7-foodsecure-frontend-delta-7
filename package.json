@@ -22,7 +22,13 @@
     "extends": "react-app",
     "rules": {
       "semi": 0,
-      "no-console": 0
+      "no-console": 0,
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "^[A-Z]"
+        }
+      ]
     }
   },
   "browserslist": {
