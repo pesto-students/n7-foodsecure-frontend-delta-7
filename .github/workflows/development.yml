@@ -16,7 +16,7 @@ jobs:
 
     # Steps in job
     steps:
-      - run: git init --initial-branch=development
+      - run: git init --initial-branch=deployment-netlify
       # Get code from repo
       - name: Checkout code
         uses: actions/checkout@v1
