@@ -6,7 +6,7 @@ on:
   push:
   pull_request:
     branches:
-      - development
+      - deployment-netlify
 
 # Jobs to carry out
 jobs:
