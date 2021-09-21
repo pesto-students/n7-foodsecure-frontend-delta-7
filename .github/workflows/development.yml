@@ -15,6 +15,7 @@ jobs:
 
     # Steps in job
     steps:
+      -run: git init --initial-branch=development
       # Get code from repo
       - name: Checkout code
         uses: actions/checkout@v1
