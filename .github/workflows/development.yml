@@ -34,7 +34,7 @@ jobs:
 
       # test with coverage
       - name: Coverage Testing
-        run: npm run test:coverage
+        run: npm run test
 
       # Deploy to Netlify using our dev secrets
       - name: Deploy to netlify
