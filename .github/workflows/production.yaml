@@ -1,11 +1,11 @@
 # Name of workflow
-name: Development workflow
+name: Production workflow
 
 # When workflow is triggered
 on:
   push:
     branches:
-      - master-test
+      - master
 
 # Jobs to carry out
 jobs:
@@ -15,7 +15,7 @@ jobs:
 
     # Steps in job
     steps:
-      - run: git init --initial-branch=master-test
+      - run: git init --initial-branch=master
       # Get code from repo
       - name: Checkout code
         uses: actions/checkout@v1
