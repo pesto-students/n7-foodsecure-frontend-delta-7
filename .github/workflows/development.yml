@@ -33,7 +33,7 @@ jobs:
         run: npm run lint
 
       # test with coverage
-      - name: Coverage Testing
+      - name: Run Tests
         run: npm run test
 
       # Deploy to Netlify using our dev secrets
