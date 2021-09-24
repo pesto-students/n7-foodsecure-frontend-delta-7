@@ -1,8 +1,7 @@
-import { configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import { render, screen } from '@testing-library/react';
 import App from './App';
-configure({ adapter: new Adapter() });
 
-
-it("renders without crashing", () => {
+test('renders learn react link', () => {
+  render(<App />);
+  
 });
