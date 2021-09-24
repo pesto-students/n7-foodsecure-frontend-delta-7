@@ -1,0 +1,47 @@
+# Name of workflow
+name: Development workflow
+
+# When workflow is triggered
+on:
+  push:
+  pull_request:
+    branches:
+      - master-test
+
+# Jobs to carry out
+jobs:
+  deploy:
+    # Operating system to run job on
+    runs-on: ubuntu-latest
+
+    # Steps in job
+    steps:
+      - run: git init --initial-branch=master-test
+      # Get code from repo
+      - name: Checkout code
+        uses: actions/checkout@v1
+      # Install NodeJS
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      # Run npm install and build on our code
+      - run: npm install
+      - run: npm run build --if-present
+      # Test Linting
+      - name: Test linting
+        run: npm run lint
+
+      # test with coverage
+      - name: Run Tests
+        run: npm run test
+
+      # Deploy to Netlify using our dev secrets
+      - name: Deploy to netlify
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.DEV_NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=build --prod
+          secrets: '["NETLIFY_AUTH_TOKEN", "DEV_NETLIFY_SITE_ID"]'
