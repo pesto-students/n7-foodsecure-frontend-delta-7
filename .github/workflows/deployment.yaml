@@ -4,7 +4,6 @@ name: Development workflow
 # When workflow is triggered
 on:
   push:
-  pull_request:
     branches:
       - master-test
 
