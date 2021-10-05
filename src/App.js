@@ -1,18 +1,20 @@
 import logo from './logo.svg';
-import './App.css';
+import './common.css';
 
 
 import firebase from './firebase';
 
 import { BrowserRouter } from 'react-router-dom';
 import LandingPage from './containers/LandingPage';
-
+import { Alert } from './components/Alert';
 function App() {
   return (
     <BrowserRouter>
-    <div className="App">
-      <LandingPage></LandingPage>
-    </div>
+      <Alert />
+      <div className="App">
+
+        <LandingPage></LandingPage>
+      </div>
     </BrowserRouter>
   );
 }

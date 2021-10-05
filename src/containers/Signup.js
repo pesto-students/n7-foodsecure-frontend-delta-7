@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
+import { Link } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import { alertService } from '../_services/alert.service';
@@ -17,30 +17,29 @@ import { useHistory } from 'react-router-dom';
 function Signup(props) {
 
   const history = useHistory();
-
-
   const auth = getAuth();
-
-
+  const [location, setLocation] = useState({});
 
   useEffect(() => {
-    function initialize() {
+    const initializePlaces = () => {
       const google = window.google;
       var input = document.getElementById('location');
       var autocomplete = new google.maps.places.Autocomplete(input);
 
-
       autocomplete.addListener('place_changed', () => {
         let place = autocomplete.getPlace();
 
-        const { lat: getLat, lng: getLng } = place.geometry.location;
-
+        const { lat: getLat, lng: getLng } = place.geometry?.location;
         const lat = getLat();
         const lng = getLng();
+        let location = {
+          lat, lng
+        }
+        setLocation(location);
       })
     }
 
-    initialize();
+    initializePlaces();
   }, [])
 
   const formik = useFormik({
@@ -50,15 +49,12 @@ function Signup(props) {
       // role: '',
       password: '',
       confirm_password: '',
-      location: 'Durg',
+      location: '',
       role: ""
     },
     validationSchema: Yup.object({
 
-      //     .required('This field is required'),
       email: Yup.string().email('Invalid email address').required('This field is required'),
-      // user_name: Yup.string().max(20, 'Must be 20 characters or less')
-      //     .required('This field is required'),
       password: Yup.string()
         .max(15, 'Must be 15 characters or less')
         .required('This field is required'),
@@ -74,190 +70,183 @@ function Signup(props) {
         .required('This field is required'),
     }),
     onSubmit: async values => {
+      debugger
       if (values.password !== values.confirm_password) {
         alertService.error('Password and confirm passsword should be of same value', { autoClose: true, keepAfterRouteChange: true })
         return
       }
 
+      if (!location.lat || !location.lng) {
+        alertService.error('Please select location from dropdown', { autoClose: true, keepAfterRouteChange: true })
+        return
+      }
 
       createUserWithEmailAndPassword(auth, values.email, values.password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
 
           const user = userCredential.user;
           debugger
 
+          const result = await postData({
+            url: ROUTES.register, body: {
+              token: user.accessToken,
+              role: values.role.toLowerCase(),
+              ...location
+            }
+          });
+          alertService.success('Registered Successfully', { autoClose: true, keepAfterRouteChange: true })
+          history.push('/login');
 
-          //{
-          // access_token
-          // }
-
-          // {
-          //   role:,
-          // }
-
-
-          // request info
-          // {
-          //   location: {
-          //     lat: lat,
-          //     long: long
-          //   },
-          //   userInfo : {
-          //  ...role
-          //   }
-          // }
-
-          //response body
-          // {
-          //   msg : 'Success',
-          //   statusCode: 200
-          // }
 
         })
         .catch((error) => {
-          debugger
           const errorCode = error.code;
           const errorMessage = error.message;
+
+          alertService.error(`Error: ${errorMessage}`, { autoClose: true, keepAfterRouteChange: true })
         });
-      // const result = await postData({url: ROUTES.registerUser, body: values});
-      // if(result.statusCode === 200){
-      //     alertService.success('Registered Successfully', { autoClose:true, keepAfterRouteChange: true })
-      //     history.push('/login');
-      // }else {
-      //     alertService.error(result.data.msg, { autoClose:true, keepAfterRouteChange: true })
-      // }
+
     },
   });
 
   return (
-    <div className="container">
+    <div className="container-fluid">
+
+      <div className="row">
+        <div className="col-md-6 sign-up-container">
+
+          <div className="heading center">Sign Up</div>
+
+          <div>
+            <form onSubmit={formik.handleSubmit}>
+              <div className="row">
+                <div className="col">
+                  <input className="form-control"
+                    id="name"
+                    name="name"
+                    type="text"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.name}
+                    placeholder="Name"
+                  />
+                  <span>{formik.touched.name && formik.errors.name ? (
+                    <div>{formik.errors.name}</div>
+                  ) : null}</span>
+                </div>
+
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <select placeholder="Role" id="role" name="role" className="form-control" onChange={formik.handleChange}
+                    onBlur={formik.handleBlur} value={formik.values.role}>
+                    <option value={""}>---Role---</option>
+                    <option value="NGO">NGO</option>
+                    <option value="RESTAURANT">Restaurant</option>
+
+                  </select>
+
+                  <span>{formik.touched.role && formik.errors.role ? (
+                    <div>{formik.errors.role}</div>
+                  ) : null}</span>
+                </div>
 
 
 
-      <form onSubmit={formik.handleSubmit}>
-        <div className="row">
-          <div className="col">
-            <label htmlFor="name">Name</label>
-            <input className="form-control"
-              id="name"
-              name="name"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
-            />
-            <span>{formik.touched.name && formik.errors.name ? (
-              <div>{formik.errors.name}</div>
-            ) : null}</span>
+              </div>
+
+              <div className="row">
+
+                <div className="col">
+                  <input placeholder="Location" id="location" name="location" onChange={formik.handleChange}
+                    onBlur={formik.handleBlur} className="form-control" type="text" id="location" />
+
+                  <span>{formik.touched.location && formik.errors.location ? (
+                    <div>{formik.errors.location}</div>
+                  ) : null}</span>
+                </div>
+
+
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    className="form-control"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.email}
+                  />
+                  <span>{formik.touched.email && formik.errors.email ? (
+                    <div>{formik.errors.email}</div>
+                  ) : null}</span>
+                </div>
+
+              </div>
+
+
+
+              <div className="row">
+                <div className="col">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                    className="form-control"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                  />
+                  <span>{formik.touched.password && formik.errors.password ? (
+                    <div>{formik.errors.password}</div>
+                  ) : null}</span>
+                </div>
+
+
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <input
+                    id="confirm_password"
+                    name="confirm_password"
+                    type="text"
+                    placeholder="Confirm password"
+                    className="form-control"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.confirm_password}
+                  />
+                  <span>{formik.touched.confirm_password && formik.errors.confirm_password ? (
+                    <div>{formik.errors.confirm_password}</div>
+                  ) : null}</span>
+                </div>
+              </div>
+
+
+
+              <div className="row">
+                <div className="col mt-3 d-flex justify-content-center">
+                  <button className="primary-button full-width" type="submit">Sign Up</button>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col d-flex justify-content-start">
+                  <>{"Have an account?  "}&nbsp; <Link to="login"> Login</Link></>
+
+                </div>
+              </div>
+            </form>
           </div>
-
         </div>
-
-        <div className="row">
-          <div className="col">
-            <label htmlFor="role">Role</label>
-            <select id="role" name="role" className="form-control" onChange={formik.handleChange}
-              onBlur={formik.handleBlur} value={formik.values.role}>
-              <option value={""}>---Select---</option>
-              <option value="NGO">NGO</option>
-              <option value="RESTAURANT">Restaurant</option>
-             
-            </select>
-
-            <span>{formik.touched.role && formik.errors.role ? (
-              <div>{formik.errors.role}</div>
-            ) : null}</span>
-          </div>
-
-         
-
-        </div>
-
-        <div className="row">
-
-          <div className="col">
-            <label htmlFor="location">Location</label>
-            <input id="location" name="location" onChange={formik.handleChange}
-              onBlur={formik.handleBlur} className="form-control" type="text" id="location" />
-
-            <span>{formik.touched.location && formik.errors.location ? (
-              <div>{formik.errors.location}</div>
-            ) : null}</span>
-          </div>
-          
-
-        </div>
-
-        <div className="row">
-          <div className="col">
-            <label htmlFor="email">Email Address</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              className="form-control"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-            />
-            <span>{formik.touched.email && formik.errors.email ? (
-              <div>{formik.errors.email}</div>
-            ) : null}</span>
-          </div>
-
-        </div>
-
-
-
-        <div className="row">
-          <div className="col">
-            <label htmlFor="email">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              className="form-control"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-            />
-            <span>{formik.touched.password && formik.errors.password ? (
-              <div>{formik.errors.password}</div>
-            ) : null}</span>
-          </div>
-
-       
-        </div>
-
-        <div className="row">
-        <div className="col">
-            <label htmlFor="email">Reenter Password</label>
-            <input
-              id="confirm_password"
-              name="confirm_password"
-              type="text"
-              className="form-control"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.confirm_password}
-            />
-            <span>{formik.touched.confirm_password && formik.errors.confirm_password ? (
-              <div>{formik.errors.confirm_password}</div>
-            ) : null}</span>
-          </div>
-        </div>
-
-
-
-        <div className="row">
-          <div className="col mt-3 d-flex justify-content-center">
-            <button className="btn btn-primary" type="submit">Register</button>
-          </div>
-        </div>
-
-
-      </form>
-
+      </div>
     </div>
   );
 }
