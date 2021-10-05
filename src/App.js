@@ -1,24 +1,21 @@
 import logo from './logo.svg';
-import './App.css';
+import './common.css';
 
+
+import firebase from './firebase';
+
+import { BrowserRouter } from 'react-router-dom';
+import LandingPage from './containers/LandingPage';
+import { Alert } from './components/Alert';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Alert />
+      <div className="App">
+
+        <LandingPage></LandingPage>
+      </div>
+    </BrowserRouter>
   );
 }
 
