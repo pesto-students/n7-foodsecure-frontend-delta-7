@@ -23,9 +23,6 @@ export async function getData({ url, headers = {}, query }) {
                 if (error.message === 'Request failed with status code 401') {
                     localStorage.setItem('token', '');
                     window.location = "/login";
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 500);
                 } else {
                     reject(error);
                 }
@@ -48,9 +45,6 @@ export async function postData({ url, headers = {}, query, body }) {
             if (error.message === 'Request failed with status code 401') {
                 localStorage.setItem('token', '');
                 window.location = "/login";
-                setTimeout(() => {
-                    window.location.reload();
-                }, 500);
             } else {
                 reject(error);
             }
