@@ -29,13 +29,17 @@ function Signup(props) {
       autocomplete.addListener('place_changed', () => {
         let place = autocomplete.getPlace();
 
-        const { lat: getLat, lng: getLng } = place.geometry?.location;
-        const lat = getLat();
-        const lng = getLng();
-        let location = {
-          lat, lng
+        if (place.geometry && place.geometry.location) {
+          const { lat: getLat, lng: getLng } = place.geometry.location;
+          const lat = getLat();
+          const lng = getLng();
+          let location = {
+            lat, lng
+          }
+          setLocation(location);
+        } else {
+          alertService.error('Please select location from dropdown', { autoClose: true, keepAfterRouteChange: true })
         }
-        setLocation(location);
       })
     }
 
@@ -70,7 +74,6 @@ function Signup(props) {
         .required('This field is required'),
     }),
     onSubmit: async values => {
-      debugger
       if (values.password !== values.confirm_password) {
         alertService.error('Password and confirm passsword should be of same value', { autoClose: true, keepAfterRouteChange: true })
         return
@@ -85,7 +88,6 @@ function Signup(props) {
         .then(async (userCredential) => {
 
           const user = userCredential.user;
-          debugger
 
           const result = await postData({
             url: ROUTES.register, body: {
