@@ -9,12 +9,13 @@ import Dashboard from './Dashboard';
 import PendingOrders from './PendingOrders';
 import AutoAwesomeMosaicIcon from '@material-ui/icons/Autorenew';
 
+import ProtectedRoute from '../components/ProtectedRoute';
+
 function Home(props) {
     return (
         <div className="wrapper">
             <nav id="sidebar">
                 <div className="sidebar-header">
-                    {/* <h3>Food Secure</h3> */}
                     <Link to="/">
                         <AppsIcon className="svg_icons nav-icon"></AppsIcon>
                     </Link>
@@ -26,9 +27,7 @@ function Home(props) {
                         <Link to="/pickup">
                             <AutoAwesomeMosaicIcon  className="svg_icons nav-icon"></AutoAwesomeMosaicIcon>
                         </Link>
-
                     </li>
-
                     <li>
                         <Link to="/dashboard">
                             <AppsIcon className="svg_icons nav-icon"></AppsIcon>
@@ -54,23 +53,18 @@ function Home(props) {
             <div className="shadow full-width p-3 m-3 bg-light rounded">
 
                 <Switch>
-
-                    <Route exact path="/pickup">
+                    <ProtectedRoute exact path="/pickup">
                         <PickUpRequest></PickUpRequest>
-                    </Route>
-
-                    <Route exact path="/dashboard">
+                    </ProtectedRoute>
+                    <ProtectedRoute exact path="/dashboard">
                         <Dashboard></Dashboard>
-                    </Route>
-
-                    <Route exact path="/leads">
+                    </ProtectedRoute>
+                    <ProtectedRoute exact path="/leads">
                         <PendingOrders></PendingOrders>
-                    </Route>
-
-                    <Route path="/">
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/">
                         <PickUpRequest></PickUpRequest>
-                    </Route>
-
+                    </ProtectedRoute>
                 </Switch>
             </div>
 

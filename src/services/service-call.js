@@ -4,7 +4,8 @@ import { trackPromise } from 'react-promise-tracker';
 const apiHeaders = () => {
     return {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'role' : `${localStorage.getItem('role')}`
     }
 }
 

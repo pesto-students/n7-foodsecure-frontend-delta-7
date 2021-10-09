@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-// import { useHistory } from 'react-router-dom';
-// import { getData } from '../services/service-call';
-// import { ROUTES } from '../config';
+import { useHistory } from 'react-router-dom';
+import { postData } from '../services/service-call';
+import { ROUTES } from '../config';
 import { alertService } from '../_services/alert.service';
 import AppsIcon from '@material-ui/icons/Apps';
 
@@ -13,19 +13,19 @@ import AppsIcon from '@material-ui/icons/Apps';
 function PickUpRequest(props) {
 
 
-    // const history = useHistory();
+    const history = useHistory();
 
     let [foodItemCount, setFoodItemCount] = useState(1);
 
     const formik = useFormik({
         initialValues: {
 
-            number_of_meal: '',
+            number_of_mealss: '',
             prepared_time: '',
             expiry_time: '',
             description: '',
             price: '',
-            foodItems: [
+            food_items: [
                 ...Array.from(Array(foodItemCount).keys()).map(() => {
                     return {
                         item_name: '',
@@ -35,7 +35,7 @@ function PickUpRequest(props) {
             ]
         },
         validationSchema: Yup.object({
-            number_of_meal: Yup.string()
+            number_of_meals: Yup.string()
                 .required('This is required'),
             prepared_time: Yup.string()
                 .required('This is required'),
@@ -45,7 +45,7 @@ function PickUpRequest(props) {
                 .required('This is required'),
             description: Yup.string()
                 .required('This is required'),
-            foodItems: Yup.array().of(
+            food_items: Yup.array().of(
                 Yup.object().shape({
                     item_name: Yup.string().required('This is required'),
                     quantity: Yup.string().required('This is required')
@@ -53,19 +53,28 @@ function PickUpRequest(props) {
             )
         }),
         onSubmit: async values => {
-
-            // need to integrate with API here
-
             console.log(values);
+            debugger
 
-            //abpve values will contain
-           
+            const result = await postData({
+                url: ROUTES.pickupRequest, body: {
+                    "number_of_meals": values.number_of_meals,
+                    "price": values.price,
+                    // "description" : values.description,
+                    "prepared_time": new Date(values.prepared_time),
+                    "expiry_time": new Date(values.expiry_time),
+                    "food_items": JSON.stringify(values.food_items)
+                }
+            });
+            
+            alertService.success('Request added successfully', { autoClose: true, keepAfterRouteChange: true })
+            history.push('dashboard');
         },
     });
 
     const addFoodItem = () => {
         setFoodItemCount((state) => {
-            if(state >= 10){
+            if (state >= 10) {
                 alertService.warn('Cannot add more than 10 food items');
                 return state;
             }
@@ -89,19 +98,19 @@ function PickUpRequest(props) {
                         <div className="row">
 
                             <div className="col">
-                                <label htmlFor="number_of_meal">Number of Meals</label>
+                                <label htmlFor="number_of_meals">Number of Meals</label>
                                 <input
-                                    id="number_of_meal"
+                                    id="number_of_meals"
                                     placeholder=""
-                                    name="number_of_meal"
+                                    name="number_of_meals"
                                     type="number"
                                     className="form-control"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    value={formik.values.number_of_meal}
+                                    value={formik.values.number_of_meals}
                                 />
-                                <span>{formik.touched.number_of_meal && formik.errors.number_of_meal ? (
-                                    <div>{formik.errors.number_of_meal}</div>
+                                <span>{formik.touched.number_of_meals && formik.errors.number_of_meals ? (
+                                    <div>{formik.errors.number_of_meals}</div>
                                 ) : null}</span>
                             </div>
 
@@ -110,7 +119,7 @@ function PickUpRequest(props) {
                                 <input
                                     id="prepared_time"
                                     name="prepared_time"
-                                    type="time"
+                                    type="datetime-local"
                                     placeholder="prepared_time"
                                     className="form-control"
                                     onChange={formik.handleChange}
@@ -132,7 +141,7 @@ function PickUpRequest(props) {
                                     id="expiry_time"
                                     placeholder=""
                                     name="expiry_time"
-                                    type="time"
+                                    type="datetime-local"
                                     className="form-control"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -189,22 +198,22 @@ function PickUpRequest(props) {
 
                         {
                             Array.from(Array(foodItemCount).keys()).map((index) => {
-                                
+
                                 return (<div key={index} className="row">
                                     <div className="col">
 
-                                        <label htmlFor={`foodItems[${index}].item_name`}>Item Name</label>
+                                        <label htmlFor={`food_items[${index}].item_name`}>Item Name</label>
                                         <input
-                                            id={`foodItems[${index}].item_name`}
+                                            id={`food_items[${index}].item_name`}
                                             placeholder=""
-                                            name={`foodItems[${index}].item_name`}
+                                            name={`food_items[${index}].item_name`}
                                             type="text"
                                             className="form-control"
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            value={formik.values.foodItems[index].item_name}
+                                            value={formik.values.food_items[index].item_name}
                                         />
-                                        <span>{formik.touched.foodItems && formik.errors.foodItems && formik.touched.foodItems[index] && formik.errors.foodItems[index]?.item_name ? (
+                                        <span>{formik.touched.food_items && formik.errors.food_items && formik.touched.food_items[index] && formik.errors.food_items[index]?.item_name ? (
                                             <div>This is required</div>
                                         ) : null}</span>
 
@@ -213,18 +222,18 @@ function PickUpRequest(props) {
 
                                     <div className="col">
 
-                                        <label htmlFor={`foodItems[${index}].quantity`}>Price</label>
+                                        <label htmlFor={`food_items[${index}].quantity`}>Price</label>
                                         <input
-                                            id={`foodItems[${index}].quantity`}
+                                            id={`food_items[${index}].quantity`}
                                             placeholder=""
-                                            name={`foodItems[${index}].quantity`}
+                                            name={`food_items[${index}].quantity`}
                                             type="number"
                                             className="form-control"
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            value={formik.values.foodItems[index].quantity}
+                                            value={formik.values.food_items[index].quantity}
                                         />
-                                        <span>{formik.touched.foodItems && formik.errors.foodItems && formik.touched.foodItems?.[index] && formik.errors.foodItems[index]?.quantity ? (
+                                        <span>{formik.touched.food_items && formik.errors.food_items && formik.touched.food_items?.[index] && formik.errors.food_items[index]?.quantity ? (
                                             <div>This is required</div>
                                         ) : null}</span>
 
@@ -240,25 +249,14 @@ function PickUpRequest(props) {
                             })
                         }
 
-
-
                         <div className="row mt-3">
                             <div className="col mt-2 d-flex justify-content-start">
                                 <button className="primary-button" type="submit">Submit</button>
                             </div>
                         </div>
 
-
-                        {/* <div>
-                            {
-                                JSON.stringify(formik.errors)
-                            }
-                        </div> */}
-
-
                     </form>
                 </div>
-
 
             </div>
         </div>

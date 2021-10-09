@@ -1,7 +1,7 @@
 
 import './common.css';
 
-
+import firebase from './firebase';
 import { BrowserRouter } from 'react-router-dom';
 import LandingPage from './containers/LandingPage';
 import { Alert } from './components/Alert';
