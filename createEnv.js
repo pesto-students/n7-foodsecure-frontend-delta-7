@@ -1,0 +1,13 @@
+const fs = require('fs')
+const path = `./.env2`
+const vars = `
+REACT_APP_API_BASE_URL=${process.env.REACT_APP_API_BASE_URL}\n
+REACT_APP_ENV=${process.env.REACT_APP_ENV}\n
+REACT_APP_APP_ID=${process.env.REACT_APP_APP_ID}\n
+REACT_APP_FIREBASE_API_KEY=${process.env.REACT_APP_FIREBASE_API_KEY}\n
+REACT_APP_FIREBASE_AUTH_DOMAIN=${process.env.REACT_APP_FIREBASE_AUTH_DOMAIN}\n
+REACT_APP_STORAGE_BUCKET=${process.env.REACT_APP_STORAGE_BUCKET}\n
+REACT_APP_MEASUREMENT_ID=${process.env.REACT_APP_MEASUREMENT_ID}\n
+REACT_APP_MESSAGE_SENDER_ID=${process.env.REACT_APP_MESSAGE_SENDER_ID}\n
+`
+fs.writeFileSync(path, vars)
