@@ -59,6 +59,8 @@ function Login(props) {
 
         <div className="heading center">Login</div>
 
+        <div>{process.env.REACT_APP_FIREBASE_API_KEY}</div>
+
 
         <form onSubmit={formik.handleSubmit}>
 
