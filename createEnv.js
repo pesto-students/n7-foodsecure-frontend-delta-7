@@ -1,5 +1,5 @@
 const fs = require('fs')
-const path = `./.env2`
+const path = `./.env`
 const vars = `
 REACT_APP_API_BASE_URL=${process.env.REACT_APP_API_BASE_URL}\n
 REACT_APP_ENV=${process.env.REACT_APP_ENV}\n
