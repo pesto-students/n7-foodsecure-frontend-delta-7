@@ -101,7 +101,7 @@ class Alert extends React.Component {
             <div style={{ zIndex: 10000000000 }}>
                 {alerts.map((alert, index) =>
                     <div key={index} style={{ position: 'fixed', right: '30px', top: '30px' }} className={this.cssClasses(alert)}>
-                        <a className="close" onClick={() => this.removeAlert(alert)}>&times;</a>
+                        <a href="" className="close" onClick={() => this.removeAlert(alert)}>&times;</a>
                         <span dangerouslySetInnerHTML={{ __html: alert.message }}></span>
                     </div>
                 )}

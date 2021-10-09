@@ -6,6 +6,7 @@ import AppsIcon from '@material-ui/icons/Apps';
 import { Link, Switch, Route } from 'react-router-dom';
 import PickUpRequest from './PickUpRequest';
 import Dashboard from './Dashboard';
+import PendingOrders from './PendingOrders';
 import AutoAwesomeMosaicIcon from '@material-ui/icons/Autorenew';
 
 function Home(props) {
@@ -15,7 +16,7 @@ function Home(props) {
                 <div className="sidebar-header">
                     {/* <h3>Food Secure</h3> */}
                     <Link to="/">
-                        <AppsIcon style={{ fontSize: 30 }} className="svg_icons"></AppsIcon>
+                        <AppsIcon className="svg_icons nav-icon"></AppsIcon>
                     </Link>
                 </div>
 
@@ -23,20 +24,26 @@ function Home(props) {
 
                     <li>
                         <Link to="/pickup">
-                            <AutoAwesomeMosaicIcon style={{ fontSize: 30 }} className="svg_icons"></AutoAwesomeMosaicIcon>
+                            <AutoAwesomeMosaicIcon  className="svg_icons nav-icon"></AutoAwesomeMosaicIcon>
                         </Link>
 
                     </li>
 
                     <li>
                         <Link to="/dashboard">
-                            <AppsIcon style={{ fontSize: 30 }} className="svg_icons"></AppsIcon>
+                            <AppsIcon className="svg_icons nav-icon"></AppsIcon>
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link to="/leads">
+                            <AppsIcon className="svg_icons nav-icon"></AppsIcon>
                         </Link>
                     </li>
 
                     <li>
                         <Link to="/another">
-                            <AppsIcon style={{ fontSize: 30 }} className="svg_icons"></AppsIcon>
+                            <AppsIcon className="svg_icons nav-icon"></AppsIcon>
                         </Link>
                     </li>
                 </ul>
@@ -48,15 +55,16 @@ function Home(props) {
 
                 <Switch>
 
-
-
-
                     <Route exact path="/pickup">
                         <PickUpRequest></PickUpRequest>
                     </Route>
 
                     <Route exact path="/dashboard">
                         <Dashboard></Dashboard>
+                    </Route>
+
+                    <Route exact path="/leads">
+                        <PendingOrders></PendingOrders>
                     </Route>
 
                     <Route path="/">

@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useHistory, Link } from 'react-router-dom';
-import { getData } from '../services/service-call';
-import { ROUTES } from '../config';
+// import { useHistory } from 'react-router-dom';
+// import { getData } from '../services/service-call';
+// import { ROUTES } from '../config';
 import { alertService } from '../_services/alert.service';
 import AppsIcon from '@material-ui/icons/Apps';
 
@@ -14,7 +13,7 @@ import AppsIcon from '@material-ui/icons/Apps';
 function PickUpRequest(props) {
 
 
-    const history = useHistory();
+    // const history = useHistory();
 
     let [foodItemCount, setFoodItemCount] = useState(1);
 
@@ -250,11 +249,11 @@ function PickUpRequest(props) {
                         </div>
 
 
-                        <div>
+                        {/* <div>
                             {
                                 JSON.stringify(formik.errors)
                             }
-                        </div>
+                        </div> */}
 
 
                     </form>

@@ -89,7 +89,7 @@ function Signup(props) {
 
           const user = userCredential.user;
 
-          const result = await postData({
+          await postData({
             url: ROUTES.register, body: {
               token: user.accessToken,
               role: values.role.toLowerCase(),
@@ -102,7 +102,7 @@ function Signup(props) {
 
         })
         .catch((error) => {
-          const errorCode = error.code;
+          // const errorCode = error.code;
           const errorMessage = error.message;
 
           alertService.error(`Error: ${errorMessage}`, { autoClose: true, keepAfterRouteChange: true })
@@ -157,12 +157,12 @@ function Signup(props) {
 
 
               </div>
-
+ 
               <div className="row">
 
                 <div className="col">
                   <input placeholder="Location" id="location" name="location" onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} className="form-control" type="text" id="location" />
+                    onBlur={formik.handleBlur} className="form-control" type="text" />
 
                   <span>{formik.touched.location && formik.errors.location ? (
                     <div>{formik.errors.location}</div>

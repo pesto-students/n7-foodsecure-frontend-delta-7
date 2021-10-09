@@ -1,7 +1,6 @@
 import React from 'react';
 
-function Dashboard(props) {
-
+function PendingOrders(props) {
 
     const data = [
         {
@@ -30,23 +29,27 @@ function Dashboard(props) {
         }
     ]
 
+    const handlePickup = (index) => {
+        alert(index);
+    }
+
 
     return (
         <div>
 
             <div className="heading">
-                Overview
+                Pending Orders
             </div>
 
         <table className="table">
             <thead>
                 <tr>
-                    <th>NGO Name</th>
+                    <th>Restaurant Name</th>
                     <th>Price</th>
                     <th>Estimated Pickup Time</th>
                     <th>Expiry</th>
                     <th>Meals</th>
-                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
@@ -59,8 +62,10 @@ function Dashboard(props) {
                         <td>{request.estimated_pickup_time}</td>
                         <td>{request.expiry}</td>
                         <td>{request.meals}</td>
-                        <td>{request.status}</td>
-                        
+
+                        <td>
+                            <button className="primary-button" onClick={() => handlePickup(index)} >Pickup</button>
+                        </td>
                     </tr>)
                     })
                 }
@@ -72,4 +77,4 @@ function Dashboard(props) {
     );
 }
 
-export default Dashboard;
+export default PendingOrders;
