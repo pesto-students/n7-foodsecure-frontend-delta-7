@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { BrowserRouter, Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
-import Dashboard from './Dashboard';
+
 
 import Login from './Login';
 import Signup from './Signup';
+import Home from './Home';
 
 function LandingPage(props) {
     return (
@@ -18,9 +19,14 @@ function LandingPage(props) {
                     <Signup></Signup>
                 </Route>
 
-                <Route exact path="/dashboard">
-                    <Dashboard></Dashboard>
+                <Route path="/">
+                    <Home></Home>
                 </Route>
+
+                <Route path="*">
+                    <Redirect to="/home"></Redirect>
+                </Route>
+
             </Switch>
         </div>
     );
