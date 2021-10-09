@@ -22,7 +22,7 @@
   },
   "scripts": {
     "start": "env-cmd -f .env.dev react-scripts start",
-    "build": "react-dotenv && node createEnv.js && CI='' && react-scripts build",
+    "build": "node createEnv.js && react-dotenv && CI='' && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "node_modules/.bin/eslint --ext js src"

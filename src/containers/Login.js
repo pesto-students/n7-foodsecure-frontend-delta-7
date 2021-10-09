@@ -6,6 +6,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useHistory, Link } from 'react-router-dom';
 import { getData } from '../services/service-call';
 import { ROUTES } from '../config';
+import env from 'react-dotenv'
 import { alertService } from '../_services/alert.service';
 
 
@@ -58,6 +59,8 @@ function Login(props) {
       <div className="row col-md-6 sign-up-container">
 
         <div className="heading center">Login</div>
+
+        <div>{env.REACT_APP_FIREBASE_API_KEY}</div>
 
         <div>{process.env.REACT_APP_FIREBASE_API_KEY}</div>
 
