@@ -21,7 +21,12 @@ function Home(props) {
             <nav id="sidebar">
                 <div className="sidebar-header">
                     <Link to="/">
-                        <AppsIcon className="svg_icons nav-icon"></AppsIcon>
+
+                        <span class="material-icons-outlined">
+                            menu
+                        </span>
+
+
                     </Link>
                 </div>
 
@@ -29,17 +34,41 @@ function Home(props) {
 
                     {
                         role === 'ngo' && (<>
-                            <li>
-                                <Link to="/ngo-dashboard">
-                                    <AppsIcon className="svg_icons nav-icon"></AppsIcon>
-                                </Link>
-                            </li>
 
                             <li>
                                 <Link to="/leads">
-                                    <AppsIcon className="svg_icons nav-icon"></AppsIcon>
+                                    <span class="material-icons-outlined">
+                                        pending_actions
+                                    </span>
                                 </Link>
                             </li>
+
+
+                            <li>
+                                <Link to="/ngo-dashboard">
+                                    <span class="material-icons-outlined">
+                                        dashboard
+                                    </span>
+                                </Link>
+                            </li>
+
+
+
+
+                            <li>
+                                <Link to="/logout" onClick={() => {
+                                    localStorage.removeItem('token');
+                                    localStorage.removeItem('role');
+
+                                    window.location.pathname = "/login";
+                                }}>
+                                    <span class="material-icons-outlined">
+                                        logout
+                                    </span>
+                                </Link>
+                            </li>
+
+
                         </>)
 
 
@@ -48,21 +77,39 @@ function Home(props) {
 
                     {
                         role === 'restaurant' && (<>
-                        
-                        <li>
-                        <Link to="/pickup">
-                            <AutoAwesomeMosaicIcon className="svg_icons nav-icon"></AutoAwesomeMosaicIcon>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/dashboard">
-                            <AppsIcon className="svg_icons nav-icon"></AppsIcon>
-                        </Link>
-                    </li>
+
+                            <li>
+                                <Link to="/pickup">
+                                    <span class="material-icons-outlined">
+                                        restaurant
+                                    </span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/dashboard">
+                                    <span class="material-icons-outlined">
+                                        dashboard
+                                    </span>
+                                </Link>
+                            </li>
+
+
+                            <li>
+                                <Link to="/logout" onClick={() => {
+                                    localStorage.removeItem('token');
+                                    localStorage.removeItem('role');
+
+                                    window.location.pathname = "/login";
+                                }}>
+                                    <span class="material-icons-outlined">
+                                        logout
+                                    </span>
+                                </Link>
+                            </li>
+
+
                         </>)
                     }
-
-                   
 
 
 
@@ -89,9 +136,9 @@ function Home(props) {
                     </ProtectedRoute>
                     <ProtectedRoute path="/">
                         {
-                            role === 'ngo' ? 
-                            <NGODashboard></NGODashboard>
-                            : <PickUpRequest></PickUpRequest>
+                            role === 'ngo' ?
+                                <NGODashboard></NGODashboard>
+                                : <PickUpRequest></PickUpRequest>
                         }
                     </ProtectedRoute>
                 </Switch>

@@ -26,10 +26,10 @@ function PickUpRequest(props) {
             description: '',
             price: '',
             food_items: [
-                ...Array.from(Array(foodItemCount).keys()).map(() => {
+                ...Array.from(Array(10).keys()).map(() => {
                     return {
                         item_name: '',
-                        quantity: 0
+                        quantity: null
                     }
                 })
             ]
@@ -45,12 +45,12 @@ function PickUpRequest(props) {
                 .required('This is required'),
             description: Yup.string()
                 .required('This is required'),
-            food_items: Yup.array().of(
-                Yup.object().shape({
-                    item_name: Yup.string().required('This is required'),
-                    quantity: Yup.string().required('This is required')
-                })
-            )
+            // food_items: Yup.array().of(
+            //     Yup.object().shape({
+            //         item_name: Yup.string(),
+            //         quantity: Yup.string()
+            //     })
+            // )
         }),
         onSubmit: async values => {
             console.log(values);
@@ -80,6 +80,10 @@ function PickUpRequest(props) {
             }
             return state + 1;
         })
+    }
+
+    const removeFoodItem = (index) => {
+
     }
 
 
@@ -197,7 +201,7 @@ function PickUpRequest(props) {
                         </div>
 
                         {
-                            Array.from(Array(foodItemCount).keys()).map((index) => {
+                            Array.from(Array(foodItemCount).keys()).map((ind, index) => {
 
                                 return (<div key={index} className="row">
                                     <div className="col">
@@ -213,9 +217,9 @@ function PickUpRequest(props) {
                                             onBlur={formik.handleBlur}
                                             value={formik.values.food_items[index].item_name}
                                         />
-                                        <span>{formik.touched.food_items && formik.errors.food_items && formik.touched.food_items[index] && formik.errors.food_items[index]?.item_name ? (
+                                        {/* <span>{formik.touched.food_items && formik.errors.food_items && formik.touched.food_items[index] && formik.errors.food_items[index]?.item_name ? (
                                             <div>This is required</div>
-                                        ) : null}</span>
+                                        ) : null}</span> */}
 
 
                                     </div>
@@ -233,17 +237,28 @@ function PickUpRequest(props) {
                                             onBlur={formik.handleBlur}
                                             value={formik.values.food_items[index].quantity}
                                         />
-                                        <span>{formik.touched.food_items && formik.errors.food_items && formik.touched.food_items?.[index] && formik.errors.food_items[index]?.quantity ? (
+                                        {/* <span>{formik.touched.food_items && formik.errors.food_items && formik.touched.food_items?.[index] && formik.errors.food_items[index]?.quantity ? (
                                             <div>This is required</div>
-                                        ) : null}</span>
+                                        ) : null}</span> */}
 
                                     </div>
 
                                     <div className="col">
-                                        <label>Add</label>
-                                        <div onClick={() => addFoodItem()}>
-                                            <AppsIcon style={{ fontSize: 30 }} className="svg_icons"></AppsIcon>
+                                        <div onClick={() => addFoodItem()} style={{paddingTop:'25px'}}>
+                                            <span style={{fontSize:'50px', cursor:'pointer'}} class="material-icons-outlined">
+                                                add
+                                            </span>
                                         </div>
+                                        
+
+                                        {/* {
+                                            index >= 1 &&
+                                            <div onClick={() => removeFoodItem(index)} style={{paddingTop:'25px'}}>
+                                            <span style={{fontSize:'50px', cursor:'pointer'}} class="material-icons-outlined">
+                                                remove
+                                            </span>
+                                        </div>
+                                        } */}
                                     </div>
                                 </div>)
                             })
@@ -254,6 +269,12 @@ function PickUpRequest(props) {
                                 <button className="primary-button" type="submit">Submit</button>
                             </div>
                         </div>
+
+                        {/* <div>
+                            {
+                                JSON.stringify(formik.errors)
+                            }
+                        </div> */}
 
                     </form>
                 </div>

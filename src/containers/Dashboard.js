@@ -60,7 +60,7 @@ function Dashboard(props) {
                     {
                         pickupRequest.map((request, index) => {
                             return (<tr>
-                                <td>{request.email}</td>
+                                <td>{request.name ?? "-"}</td>
                                 <td>{request.price}</td>
                                 <td>{request.prepared_time}</td>
                                 <td>{request.expiry_time}</td>

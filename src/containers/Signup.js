@@ -92,6 +92,7 @@ function Signup(props) {
           await postData({
             url: ROUTES.register, body: {
               token: user.accessToken,
+              name: values.name,
               role: values.role.toLowerCase(),
               ...location
             }

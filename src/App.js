@@ -5,6 +5,7 @@ import firebase from './firebase';
 import { BrowserRouter } from 'react-router-dom';
 import LandingPage from './containers/LandingPage';
 import { Alert } from './components/Alert';
+import 'material-icons/iconfont/material-icons.css';
 
 import { LoadingIndicator } from './components/LoadingIndicator';
 

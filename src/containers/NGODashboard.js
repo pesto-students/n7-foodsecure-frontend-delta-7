@@ -54,7 +54,7 @@ function NGODashboard(props) {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>Restaurant Name(Email)</th>
+                        <th>Restaurant Name</th>
                         <th>Price</th>
                         <th>Prepared Time</th>
                         <th>Expiry Time</th>
@@ -67,7 +67,7 @@ function NGODashboard(props) {
                     {
                         completedOrders.map((request, index) => {
                             return (<tr>
-                                <td>{request.email}</td>
+                                <td>{request.name}</td>
                                 <td>{request.price}</td>
                                 <td>{request.prepared_time}</td>
                                 <td>{request.expiry_time}</td>
