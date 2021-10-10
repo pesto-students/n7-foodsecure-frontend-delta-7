@@ -63,8 +63,8 @@ function PendingOrders(props) {
                        return ( <tr>
                         <td>{request.name}</td>
                         <td>{request.price}</td>
-                        <td>{request.prepared_time}</td>
-                        <td>{request.expiry_time}</td>
+                        <td>{new Date(request.prepared_time).toString().substring(0,25)}</td>
+                        <td>{new Date(request.expiry_time).toString().substring(0,25)}</td>
                         <td>{request.number_of_meals}</td>
                         
                         <td>
