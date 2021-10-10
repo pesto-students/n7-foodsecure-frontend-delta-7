@@ -6,12 +6,16 @@ import AppsIcon from '@material-ui/icons/Apps';
 import { Link, Switch, Route } from 'react-router-dom';
 import PickUpRequest from './PickUpRequest';
 import Dashboard from './Dashboard';
+import NGODashboard from './NGODashboard';
 import PendingOrders from './PendingOrders';
 import AutoAwesomeMosaicIcon from '@material-ui/icons/Autorenew';
 
 import ProtectedRoute from '../components/ProtectedRoute';
 
 function Home(props) {
+
+    const role = localStorage.getItem('role');
+
     return (
         <div className="wrapper">
             <nav id="sidebar">
@@ -23,9 +27,31 @@ function Home(props) {
 
                 <ul className="list-unstyled components">
 
-                    <li>
+                    {
+                        role === 'ngo' && (<>
+                            <li>
+                                <Link to="/ngo-dashboard">
+                                    <AppsIcon className="svg_icons nav-icon"></AppsIcon>
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/leads">
+                                    <AppsIcon className="svg_icons nav-icon"></AppsIcon>
+                                </Link>
+                            </li>
+                        </>)
+
+
+
+                    }
+
+                    {
+                        role === 'restaurant' && (<>
+                        
+                        <li>
                         <Link to="/pickup">
-                            <AutoAwesomeMosaicIcon  className="svg_icons nav-icon"></AutoAwesomeMosaicIcon>
+                            <AutoAwesomeMosaicIcon className="svg_icons nav-icon"></AutoAwesomeMosaicIcon>
                         </Link>
                     </li>
                     <li>
@@ -33,18 +59,14 @@ function Home(props) {
                             <AppsIcon className="svg_icons nav-icon"></AppsIcon>
                         </Link>
                     </li>
+                        </>)
+                    }
 
-                    <li>
-                        <Link to="/leads">
-                            <AppsIcon className="svg_icons nav-icon"></AppsIcon>
-                        </Link>
-                    </li>
+                   
 
-                    <li>
-                        <Link to="/another">
-                            <AppsIcon className="svg_icons nav-icon"></AppsIcon>
-                        </Link>
-                    </li>
+
+
+
                 </ul>
             </nav>
 
@@ -59,11 +81,18 @@ function Home(props) {
                     <ProtectedRoute exact path="/dashboard">
                         <Dashboard></Dashboard>
                     </ProtectedRoute>
+                    <ProtectedRoute exact path="/ngo-dashboard">
+                        <NGODashboard></NGODashboard>
+                    </ProtectedRoute>
                     <ProtectedRoute exact path="/leads">
                         <PendingOrders></PendingOrders>
                     </ProtectedRoute>
                     <ProtectedRoute path="/">
-                        <PickUpRequest></PickUpRequest>
+                        {
+                            role === 'ngo' ? 
+                            <NGODashboard></NGODashboard>
+                            : <PickUpRequest></PickUpRequest>
+                        }
                     </ProtectedRoute>
                 </Switch>
             </div>

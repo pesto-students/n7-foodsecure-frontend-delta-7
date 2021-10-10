@@ -40,7 +40,11 @@ function Login(props) {
 
           localStorage.setItem('role', result.role);
           alertService.success('Logged in successfully', { autoClose: true, keepAfterRouteChange: true })
-          history.push('/dashboard');
+          if(result.role === 'ngo'){
+            history.push('/ngo-dashboard');
+          }else if(result.role === 'restaurant'){
+            history.push('/dashboard');
+          }
 
         })
         .catch((error) => {
@@ -60,9 +64,9 @@ function Login(props) {
 
         <div className="heading center">Login</div>
 
-        <div>{env.REACT_APP_FIREBASE_API_KEY}</div>
+        {/* <div>{env.REACT_APP_FIREBASE_API_KEY}</div>
 
-        <div>{process.env.REACT_APP_FIREBASE_API_KEY}</div>
+        <div>{process.env.REACT_APP_FIREBASE_API_KEY}</div> */}
 
 
         <form onSubmit={formik.handleSubmit}>

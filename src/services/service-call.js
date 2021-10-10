@@ -21,7 +21,8 @@ export async function getData({ url, headers = {}, query }) {
             .then(res => {
                 resolve(res.data);
             }).catch(error => {
-                if (error.message === 'Request failed with status code 401') {
+                debugger
+                if (error.message === 'Request failed with status code 401' || error.message === 'Request failed with status code 403') {
                     localStorage.setItem('token', '');
                     window.location = "/login";
                 } else {
@@ -43,7 +44,8 @@ export async function postData({ url, headers = {}, query, body }) {
         }).then(res => {
             resolve(res.data);
         }).catch(error => {
-            if (error.message === 'Request failed with status code 401') {
+            debugger
+            if (error.message === 'Request failed with status code 401' || error.message === 'Request failed with status code 403') {
                 localStorage.setItem('token', '');
                 window.location = "/login";
             } else {

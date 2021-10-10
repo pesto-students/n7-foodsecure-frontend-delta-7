@@ -144,8 +144,8 @@ function Signup(props) {
                   <select placeholder="Role" id="role" name="role" className="form-control" onChange={formik.handleChange}
                     onBlur={formik.handleBlur} value={formik.values.role}>
                     <option value={""}>---Role---</option>
-                    <option value="NGO">NGO</option>
-                    <option value="RESTAURANT">Restaurant</option>
+                    <option value="ngo">NGO</option>
+                    <option value="restaurant">Restaurant</option>
 
                   </select>
 

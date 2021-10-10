@@ -1,36 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ROUTES } from '../config';
+import { getData, postData } from '../services/service-call';
+import { alertService } from '../_services';
 
 function PendingOrders(props) {
 
-    const data = [
-        {
-            restaurant_name : "Hiati Caterrers",
-            price: 900,
-            estimated_pickup_time: '4:00 PM',
-            expiry: '7:00 PM',
-            meals: 2,
+   
+    const [pendingOrders, setPendingOrders] = useState([]);
 
-        },
-        {
-            restaurant_name : "Hiati Caterrers",
-            price: 900,
-            estimated_pickup_time: '4:00 PM',
-            expiry: '7:00 PM',
-            meals: 2,
-            
-        },
-        {
-            restaurant_name : "Hiati Caterrers",
-            price: 900,
-            estimated_pickup_time: '4:00 PM',
-            expiry: '7:00 PM',
-            meals: 2,
-            
-        }
-    ]
 
-    const handlePickup = (index) => {
-        alert(index);
+    useEffect(() => {
+        getPendingOrders();
+    }, []);
+
+
+    const getPendingOrders = async () => {
+        const result = await getData({
+            url : ROUTES.ngoPickup
+        });
+
+        setPendingOrders(result);
+    }
+
+    const handlePickup = async (index) => {
+        let id = pendingOrders[index].pickupid;
+
+        const result = await getData({
+            url : `${ROUTES.pickUpConfirmation}${id}`
+        });
+
+        alertService.success('Confirmation Sent to Restaurant for Pickup', { autoClose: true, keepAfterRouteChange: true });
+
+
+        getPendingOrders();
+
+
     }
 
 
@@ -44,25 +48,25 @@ function PendingOrders(props) {
         <table className="table">
             <thead>
                 <tr>
-                    <th>Restaurant Name</th>
+                    <th>Restaurant Name(Email)</th>
                     <th>Price</th>
-                    <th>Estimated Pickup Time</th>
-                    <th>Expiry</th>
-                    <th>Meals</th>
+                    <th>Prepared Time</th>
+                    <th>Expiry Time</th>
+                    <th>Number of Meals</th>
                     <th>Action</th>
                 </tr>
             </thead>
 
             <tbody>
                 {
-                    data.map((request, index) => {
+                    pendingOrders.map((request, index) => {
                        return ( <tr>
-                        <td>{request.restaurant_name}</td>
+                        <td>{request.email}</td>
                         <td>{request.price}</td>
-                        <td>{request.estimated_pickup_time}</td>
-                        <td>{request.expiry}</td>
-                        <td>{request.meals}</td>
-
+                        <td>{request.prepared_time}</td>
+                        <td>{request.expiry_time}</td>
+                        <td>{request.number_of_meals}</td>
+                        
                         <td>
                             <button className="primary-button" onClick={() => handlePickup(index)} >Pickup</button>
                         </td>

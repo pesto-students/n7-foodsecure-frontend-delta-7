@@ -1,33 +1,35 @@
 import React, { useEffect, useState } from 'react';
+
 import { ROUTES } from '../config';
-import { getData } from '../services/service-call';
+import { getData, postData } from '../services/service-call';
+import { alertService } from '../_services';
 
-function Dashboard(props) {
+function NGODashboard(props) {
 
 
-    const [requestCount, setRequestCount] = useState({});
-    const [pickupRequest, setPickupRequest] = useState([]);
+    const [pickupStats, setPickupStats] = useState({});
+    const [completedOrders, setCompletedOrders] = useState([]);
 
 
     useEffect(() => {
-        getOrdersCount();
-        getOrdersData();
+        getCompletedOrders();
+        getPickupStats();
     }, []);
 
-    const getOrdersCount = async () => {
+    const getCompletedOrders = async () => {
         const result = await getData({
-            url: ROUTES.restaurantStats
+            url: ROUTES.completedOrders
         });
 
-        setRequestCount(result);
+        setCompletedOrders(result);
     }
 
-    const getOrdersData = async () => {
+    const getPickupStats = async () => {
         const result = await getData({
-            url: ROUTES.restaurantOrders
+            url: ROUTES.ngoStats
         });
 
-        setPickupRequest(result);
+        setPickupStats(result);
     }
 
     return (
@@ -38,35 +40,40 @@ function Dashboard(props) {
             </div>
 
             <div className="d-flex justify-content-center align-items-center">
-                <div class="d-inline-flex p-2 bd-highlight">Completed Orders {requestCount.completedCount}</div>
+                <div class="d-inline-flex p-2 bd-highlight">Completed Orders {pickupStats.completed}</div>
 
-                <div class="d-inline-flex p-2 bd-highlight">Pendings Orders {requestCount.pendingCount}</div>
+                <div class="d-inline-flex p-2 bd-highlight">Pendings Orders {pickupStats.pending}</div>
 
+            </div>
+
+
+            <div className="heading">
+                Completed Orders
             </div>
 
             <table className="table">
                 <thead>
                     <tr>
-                        <th>NGO Name</th>
+                        <th>Restaurant Name(Email)</th>
                         <th>Price</th>
                         <th>Prepared Time</th>
                         <th>Expiry Time</th>
                         <th>Number of Meals</th>
-                        <th>Status</th>
+                        
                     </tr>
                 </thead>
 
                 <tbody>
                     {
-                        pickupRequest.map((request, index) => {
+                        completedOrders.map((request, index) => {
                             return (<tr>
                                 <td>{request.email}</td>
                                 <td>{request.price}</td>
                                 <td>{request.prepared_time}</td>
                                 <td>{request.expiry_time}</td>
                                 <td>{request.number_of_meals}</td>
-                                <td>{request.status}</td>
 
+                               
                             </tr>)
                         })
                     }
@@ -78,4 +85,4 @@ function Dashboard(props) {
     );
 }
 
-export default Dashboard;
+export default NGODashboard;
