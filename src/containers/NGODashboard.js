@@ -39,10 +39,14 @@ function NGODashboard(props) {
                 Overview
             </div>
 
-            <div className="d-flex justify-content-center align-items-center">
+            <div className="stats-container">
+                <button className="primary-button">
                 <div class="d-inline-flex p-2 bd-highlight">Completed Orders {pickupStats.completed}</div>
+                </button>
 
+                <button className="primary-button">
                 <div class="d-inline-flex p-2 bd-highlight">Pendings Orders {pickupStats.pending}</div>
+                </button>
 
             </div>
 

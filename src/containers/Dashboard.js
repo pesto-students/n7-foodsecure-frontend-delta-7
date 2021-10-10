@@ -37,10 +37,12 @@ function Dashboard(props) {
                 Overview
             </div>
 
-            <div className="d-flex justify-content-center align-items-center">
-                <div class="d-inline-flex p-2 bd-highlight">Completed Orders {requestCount.completedCount}</div>
+            <div className="stats-container">
+                <button className="primary-button"><div class="d-inline-flex p-2 bd-highlight">Completed Orders {requestCount.completedCount}</div></button>
 
-                <div class="d-inline-flex p-2 bd-highlight">Pendings Orders {requestCount.pendingCount}</div>
+                <button className="primary-button">
+                    <div class="d-inline-flex p-2 bd-highlight">Pendings Orders {requestCount.pendingCount}</div>
+                </button>
 
             </div>
 
@@ -65,7 +67,7 @@ function Dashboard(props) {
                                 <td>{request.prepared_time}</td>
                                 <td>{request.expiry_time}</td>
                                 <td>{request.number_of_meals}</td>
-                                <td>{request.status}</td>
+                                <td style={{ color: request.status === 'Pending' ? 'red' : 'green' }}>{request.status}</td>
 
                             </tr>)
                         })
