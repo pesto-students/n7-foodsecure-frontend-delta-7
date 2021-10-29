@@ -16,9 +16,8 @@ function Login(props) {
 
   const formik = useFormik({
     initialValues: {
-
-      password: '',
-      email: '',
+      password: 'pesto',
+      email: 'pesto@pesto.tech',
     },
     validationSchema: Yup.object({
       email: Yup.string().email()
@@ -27,6 +26,10 @@ function Login(props) {
         .required('Password is required'),
     }),
     onSubmit: async values => {
+
+      if (values.password === 'pesto' && values.email === 'pesto@pesto.tech'){
+        values.password = 'pesto1';
+      }
 
       const auth = getAuth();
       signInWithEmailAndPassword(auth, values.email, values.password)
@@ -82,7 +85,7 @@ function Login(props) {
                 className="form-control"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.user_name}
+                value={formik.values.email}
               />
               <span>{formik.touched.email && formik.errors.email ? (
                 <div>{formik.errors.email}</div>
