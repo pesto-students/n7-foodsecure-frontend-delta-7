@@ -20,14 +20,14 @@ function Home(props) {
         <div className="wrapper">
             <nav id="sidebar">
                 <div className="sidebar-header">
-                    <Link to="/">
+                    {/* <Link to="/">
 
                         <span class="material-icons-outlined">
                             menu
                         </span>
 
 
-                    </Link>
+                    </Link> */}
                 </div>
 
                 <ul className="list-unstyled components">
