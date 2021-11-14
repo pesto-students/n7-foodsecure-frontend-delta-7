@@ -249,6 +249,11 @@ function Signup(props) {
             </form>
           </div>
         </div>
+      
+      
+        <div className="col-md-6">
+                <img width="100%" height="100%" src="./bg.jpeg"></img>
+      </div>
       </div>
     </div>
   );

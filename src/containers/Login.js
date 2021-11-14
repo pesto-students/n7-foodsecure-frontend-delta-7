@@ -61,9 +61,9 @@ function Login(props) {
 
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid row">
 
-      <div className="row col-md-6 sign-up-container">
+      <div className="col-md-6 sign-up-container">
 
         <div className="heading center">Login</div>
 
@@ -133,6 +133,10 @@ function Login(props) {
         </form>
 
 
+      </div>
+
+      <div className="col-md-6">
+                <img width="100%" height="100%" src="./bg.jpeg"></img>
       </div>
     </div>
   );
