@@ -251,8 +251,8 @@ function Signup(props) {
         </div>
       
       
-        <div className="col-md-6">
-                <img width="100%" height="100%" src="./bg.jpeg"></img>
+        <div className="col-md-6" style={{display:'flex', justifyContent:'center', alignContent:'center', height:'100vh', padding:'70px 20px'}}>
+                <img width="100%" height="100%" src="./bg1.png"></img>
       </div>
       </div>
     </div>
