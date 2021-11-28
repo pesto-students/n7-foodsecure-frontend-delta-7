@@ -6,6 +6,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import Home from './Home';
+import WelcomePage from './WelcomePage';
 
 function LandingPage(props) {
     return (
@@ -19,12 +20,16 @@ function LandingPage(props) {
                     <Signup></Signup>
                 </Route>
 
-                <Route path="/">
+                <Route exact path="/dashboard">
                     <Home></Home>
                 </Route>
 
+                <Route exact path="/">
+                    <WelcomePage></WelcomePage>
+                </Route>
+
                 <Route path="*">
-                    <Redirect to="/home"></Redirect>
+                    <Home></Home>
                 </Route>
 
             </Switch>
