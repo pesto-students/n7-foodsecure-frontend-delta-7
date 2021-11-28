@@ -37,16 +37,16 @@ function Home(props) {
 
                             <li>
                                 <Link to="/leads">
-                                    <span class="material-icons-outlined">
+                                    <span class="material-icons-outlined" title="Pending Orders">
                                         pending_actions
                                     </span>
                                 </Link>
-                            </li>
+                            </li>   
 
 
                             <li>
                                 <Link to="/ngo-dashboard">
-                                    <span class="material-icons-outlined">
+                                    <span class="material-icons-outlined" title="Overview">
                                         dashboard
                                     </span>
                                 </Link>
@@ -62,7 +62,7 @@ function Home(props) {
 
                                     window.location.pathname = "/login";
                                 }}>
-                                    <span class="material-icons-outlined">
+                                    <span class="material-icons-outlined" title="Logout">
                                         logout
                                     </span>
                                 </Link>
@@ -80,14 +80,14 @@ function Home(props) {
 
                             <li>
                                 <Link to="/pickup">
-                                    <span class="material-icons-outlined">
+                                    <span class="material-icons-outlined" title="Raise pickup request">
                                         restaurant
                                     </span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/dashboard">
-                                    <span class="material-icons-outlined">
+                                    <span class="material-icons-outlined" title="Overview">
                                         dashboard
                                     </span>
                                 </Link>
@@ -101,7 +101,7 @@ function Home(props) {
 
                                     window.location.pathname = "/login";
                                 }}>
-                                    <span class="material-icons-outlined">
+                                    <span class="material-icons-outlined" title="Logout">
                                         logout
                                     </span>
                                 </Link>
